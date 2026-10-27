@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Intelligent Personalized Fitness and Health Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="stylesheet" href="/static/css/responsive.css" />
+</head>
+<body>
+
+  <!-- Toast Host Container -->
+  <div id="toastHost"></div>
+
+  <!-- Authentication Modal -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-card">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; margin: 0 auto 12px; box-shadow: var(--shadow-glow);">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <h2 style="font-size: 22px; font-weight: 900;">Welcome to Intelligent Fitness</h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Intelligent Personalized Health & Fitness Assistant</p>
+
+        <!-- Auth Tabs -->
+        <div style="display: flex; gap: 8px; margin-top: 18px; background: var(--border-light); padding: 4px; border-radius: var(--radius-md);">
+          <button type="button" class="btn-secondary active" id="tabLogin" style="flex: 1; border: none; justify-content: center;">Sign In</button>
+          <button type="button" class="btn-secondary" id="tabRegister" style="flex: 1; border: none; justify-content: center;">Create Account</button>
+        </div>
+      </div>
+
+      <!-- Sign In Form -->
+      <form id="loginForm">
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Email Address</label>
+          <input type="email" id="loginEmail" value="demo@fitness.com" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <div style="margin-bottom: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Password</label>
+            <a href="javascript:void(0)" id="forgotPasswordLink" style="font-size: 12px; font-weight: 600; color: var(--primary); text-decoration: none;">Forgot Password?</a>
+          </div>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px;">
+          Sign In to Dashboard
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" style="display: none;">
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Your Name</label>
+          <input type="text" id="regName" placeholder="e.g. Alex Taylor" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Email Address</label>
+          <input type="email" id="regEmail" placeholder="e.g. alex@example.com" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Create Password (min 6 chars)</label>
+          <input type="password" id="regPassword" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Confirm Password</label>
+          <input type="password" id="regConfirm" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px;">
+          Create Account & Start Assessment <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Forgot Password Form -->
+      <form id="forgotForm" style="display: none;">
+        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">Reset Your Password</h3>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Enter your registered email to generate a secure 1-hour cryptographic recovery token.</p>
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Email Address</label>
+          <input type="email" id="forgotEmail" placeholder="your-email@example.com" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <div id="forgotDevNotice"></div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px; margin-top: 10px;">
+          Send Reset Instructions
+        </button>
+        <div style="text-align: center; margin-top: 14px;">
+          <a href="javascript:void(0)" class="backToLogin" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none;">Back to Sign In</a>
+        </div>
+      </form>
+
+      <!-- Reset Password Form -->
+      <form id="resetForm" style="display: none;">
+        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">Create New Password</h3>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Your reset token has been verified. Enter your new secure password below.</p>
+        <input type="hidden" id="resetTokenInput" />
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">New Password</label>
+          <input type="password" id="resetNewPassword" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Confirm New Password</label>
+          <input type="password" id="resetConfirmPassword" required style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 4px; font-size: 14px;" />
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px;">
+          Update Password & Sign In
+        </button>
+        <div style="text-align: center; margin-top: 14px;">
+          <a href="javascript:void(0)" class="backToLogin" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none;">Back to Sign In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Onboarding Modal (1-Question-at-a-time) -->
+  <div class="modal-backdrop" id="onboardingModal">
+    <div class="modal-card" id="onboardingWizardHost" style="max-width: 600px;">
+    </div>
+  </div>
+
+  <!-- Workout Player & Studio Modal -->
+  <div class="modal-backdrop" id="workoutPlayerModal">
+  </div>
+
+  <!-- Food Diary Add Food Modal -->
+  <div class="modal-backdrop" id="foodModal">
+  </div>
+
+  <!-- Google Gemini Multimodal Vision AI Modal -->
+  <div class="modal-backdrop" id="geminiKeyModal" style="display: none;">
+    <div class="modal-card" style="max-width: 540px; padding: 28px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; color: var(--text-main);">
+          <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i>
+          <span>Google Gemini Vision AI Setup</span>
+        </div>
+        <button onclick="window.app.closeGeminiKeyModal()" style="background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+        Connect Google Gemini Multimodal Vision AI for <strong>100% precision detection</strong> on any meal plate, drink, snack, or fruit (e.g. <em>White Rice + Sambar + Potato Fry + Pickle</em> or <em>Biryani + Egg + Leg Piece</em>).
+      </p>
+
+      <div style="background: var(--border-light); padding: 14px; border-radius: var(--radius-md); font-size: 12px; line-height: 1.6; margin-bottom: 18px; border-left: 4px solid var(--primary);">
+        <strong>How to get your free key in 30 seconds:</strong>
+        <ol style="margin: 6px 0 0 16px; padding: 0;">
+          <li>Open <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--primary); font-weight: 800; text-decoration: underline;">Google AI Studio (Click here)</a></li>
+          <li>Sign in with your Google account & click <strong>Create API Key</strong></li>
+          <li>Copy and paste your key below (Starts with <code style="background: var(--bg-card); padding: 2px 4px; border-radius: 4px;">AIzaSy...</code>)</li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">Google Gemini API Key</label>
+        <input type="password" id="geminiApiKeyInput" placeholder="Paste your AIzaSy... key here" style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 14px; background: var(--bg-surface); color: var(--text-main);" />
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn-secondary" onclick="window.app.closeGeminiKeyModal()" style="font-size: 13px; padding: 8px 16px;">Cancel</button>
+        <button class="btn-primary" onclick="window.app.saveGeminiApiKey()" style="font-size: 13px; padding: 8px 20px;">
+          <i class="fa-solid fa-bolt"></i> Connect & Save Key
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Shell -->
+  <div id="app-layout">
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="brand-header">
+        <div class="brand-logo" style="background: linear-gradient(135deg, var(--primary), var(--primary-hover));"><i class="fa-solid fa-heart-pulse"></i></div>
+        <div class="brand-text">
+          <h1>Intelligent Fitness</h1>
+          <span>AI Health & Wellness</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-item active" data-page="dashboard" onclick="window.app.navigate('dashboard')">
+          <i class="fa-solid fa-house"></i> <span>Dashboard</span>
+        </div>
+        <div class="nav-item" data-page="plan" onclick="window.app.navigate('plan')">
+          <i class="fa-solid fa-clipboard-check"></i> <span>Your Plan Today</span>
+        </div>
+        <div class="nav-item" data-page="food" onclick="window.app.navigate('food')">
+          <i class="fa-solid fa-bowl-food"></i> <span>Food Diary</span>
+        </div>
+        <div class="nav-item" data-page="workouts" onclick="window.app.navigate('workouts')">
+          <i class="fa-solid fa-dumbbell"></i> <span>Workout Studio</span>
+        </div>
+        <div class="nav-item" data-page="scanner" onclick="window.app.navigate('scanner')">
+          <i class="fa-solid fa-camera"></i> <span>AI Food Scanner</span>
+        </div>
+        <div class="nav-item" data-page="assistant" onclick="window.app.navigate('assistant')">
+          <i class="fa-solid fa-robot"></i> <span>AI Fitness Coach</span>
+        </div>
+        <div class="nav-item" data-page="hydration" onclick="window.app.navigate('hydration')">
+          <i class="fa-solid fa-droplet"></i> <span>Smart Hydration</span>
+        </div>
+        <div class="nav-item" data-page="habits" onclick="window.app.navigate('habits')">
+          <i class="fa-solid fa-circle-check"></i> <span>Habit Intelligence</span>
+        </div>
+        <div class="nav-item" data-page="progress" onclick="window.app.navigate('progress')">
+          <i class="fa-solid fa-chart-line"></i> <span>Progress Analytics</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge" id="sidebarUserBadge">
+          <div class="user-avatar" id="sidebarAvatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Loading...</div>
+            <div class="user-goal" id="sidebarUserGoal">Fitness Target</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button class="icon-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode" onclick="window.app.toggleTheme()" style="flex: 1;">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button class="icon-btn" id="soundToggleBtn" title="Toggle Sound FX" onclick="window.app.toggleSound()" style="flex: 1;">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+          <button class="icon-btn" title="Sign Out" onclick="window.app.logout()" style="flex: 1;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <div class="main-wrapper">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="hamburger-btn" onclick="document.getElementById('appSidebar').classList.toggle('open')">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title">
+            <h2 id="currentViewTitle">Daily Dashboard</h2>
+            <p id="currentViewSubtitle">Personalized metabolic metrics and daily routine</p>
+          </div>
+        </div>
+
+        <div class="top-bar-right">
+          <!-- Gemini AI Setup Button in Top Bar -->
+          <button class="btn-primary" id="topBarGeminiBtn" onclick="window.app.openGeminiKeyModal()" title="Configure Google Gemini Vision AI" style="padding: 6px 14px; font-size: 12px; gap: 6px; border-radius: 999px; height: 34px; cursor: pointer; display: flex; align-items: center;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Gemini Vision AI</span>
+          </button>
+
+          <div class="streak-pill">
+            <i class="fa-solid fa-fire"></i> <span id="streakCount">0 Days Active</span>
+          </div>
+
+          <!-- Notification Bell Button -->
+          <button class="icon-btn" id="notifBellBtn" title="Reminders & Alerts" onclick="window.app.toggleNotificationDrawer()" style="position: relative;">
+            <i class="fa-solid fa-bell"></i>
+            <span id="notifBadge" style="display: none; position: absolute; top: 2px; right: 2px; min-width: 16px; height: 16px; background: #8571FF; color: white; border-radius: 999px; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-surface);">0</span>
+          </button>
+
+          <button class="icon-btn" onclick="window.app.restartOnboarding()" title="Recalibrate Assessment / Onboarding">
+            <i class="fa-solid fa-sliders"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Notification Slide-out Drawer -->
+      <div id="notificationDrawer" class="notification-drawer" style="display: none;">
+        <div class="notif-drawer-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-bell" style="color: var(--primary);"></i>
+            <h3 style="font-size: 15px; font-weight: 800; margin: 0; color: var(--text-main);">Notifications & Reminders</h3>
+          </div>
+          <button class="icon-btn" style="width: 28px; height: 28px; font-size: 12px;" onclick="window.app.toggleNotificationDrawer()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="notif-drawer-body" id="notificationList">
+          <div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 12px;">
+            No active reminders right now.
+          </div>
+        </div>
+      </div>
+
+      <main class="content-canvas" id="contentCanvas">
+        <!-- Views dynamically injected here -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <div class="mobile-bottom-nav">
+    <button class="mobile-nav-btn active" data-page="dashboard" onclick="window.app.navigate('dashboard')">
+      <i class="fa-solid fa-house"></i> <span>Today</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="plan" onclick="window.app.navigate('plan')">
+      <i class="fa-solid fa-clipboard-check"></i> <span>Plan</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="food" onclick="window.app.navigate('food')">
+      <i class="fa-solid fa-bowl-food"></i> <span>Food</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="workouts" onclick="window.app.navigate('workouts')">
+      <i class="fa-solid fa-dumbbell"></i> <span>Studio</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="scanner" onclick="window.app.navigate('scanner')">
+      <i class="fa-solid fa-camera"></i> <span>Scan</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="assistant" onclick="window.app.navigate('assistant')">
+      <i class="fa-solid fa-robot"></i> <span>Coach</span>
+    </button>
+  </div>
+
+  <!-- Master Application Script -->
+  <script type="module" src="/static/js/app.js?v=9.4"></script>
+</body>
+</html>

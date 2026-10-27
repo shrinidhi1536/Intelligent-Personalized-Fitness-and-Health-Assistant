@@ -1,0 +1,96 @@
+﻿@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-wrapper {
+    margin-left: 0;
+    padding-bottom: 76px;
+  }
+
+  .hamburger-btn {
+    display: block;
+  }
+
+  .content-canvas {
+    padding: 16px;
+  }
+
+  .col-span-8, .col-span-7, .col-span-5, .col-span-4, .col-span-6 {
+    grid-column: span 12;
+  }
+
+  .macro-breakdown-row {
+    grid-template-columns: 1fr;
+  }
+
+  .habits-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .horizontal-meals-row {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .meal-column-card {
+    min-width: 260px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  .workout-player-container {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobile Bottom Navigation Bar */
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    z-index: 100;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -4px 10px rgba(93, 79, 179, 0.08);
+  }
+
+  .mobile-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .mobile-nav-btn i {
+    font-size: 18px;
+  }
+
+  .mobile-nav-btn.active {
+    color: var(--primary);
+  }
+}
+
+@media (min-width: 901px) {
+  .mobile-bottom-nav {
+    display: none;
+  }
+}
