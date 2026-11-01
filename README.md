@@ -56,6 +56,8 @@ An original, production-grade, database-backed personalized fitness and health p
 
 ## 🚀 How to Run
 
+https://intelligent-personalized-fitness-and-l3ao.onrender.com
+
 1. Open PowerShell in `C:\Users\SHRINIDHI\Downloads\intelligent-fitness-pro`:
    ```powershell
    python run.py
